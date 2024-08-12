@@ -20,13 +20,17 @@ import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.AddCircle
 import androidx.compose.material.icons.outlined.Face
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
@@ -74,261 +78,7 @@ import com.example.propertyplus.ui.theme.screens.property.bottomNavItems
 @Composable
 fun IntentScreen(navController: NavController){
 
-    Column(modifier = Modifier.fillMaxSize()) {
 
-        var selected by remember { mutableIntStateOf(0) }
-        Scaffold(
-            bottomBar = {
-                NavigationBar(
-                    containerColor = Color.Cyan,
-                    contentColor = Color.Red
-                ) {
-                    bottomNavItems.forEachIndexed { index, bottomNavItem ->
-                        NavigationBarItem(
-                            selected = index == selected,
-                            onClick = {
-                                selected = index
-                                navController.navigate(bottomNavItem.route)
-                            },
-                            icon = {
-                                BadgedBox(
-                                    badge = {
-                                        if (bottomNavItem.badges != 0) {
-                                            Badge {
-                                                Text(text = bottomNavItem.badges.toString())
-                                            }
-                                        } else if (bottomNavItem.hasNews) {
-                                            Badge()
-                                        }
-                                    }
-                                ) {
-                                    Icon(imageVector =
-                                    if (index == selected)
-                                        bottomNavItem.selectedIcon
-                                    else
-                                        bottomNavItem.unselectedIcon,
-                                        contentDescription = bottomNavItem.title)
-                                }
-
-                            },
-                            label = {
-                                Text(text = bottomNavItem.title)
-                            })
-                    }
-                }
-            },
-
-            topBar = {
-                TopAppBar(
-                    title = { Text(text = "Additional Properties") },
-                    colors = TopAppBarDefaults.mediumTopAppBarColors(Color.Cyan)
-                )
-            },
-
-
-            floatingActionButton = {
-                FloatingActionButton(onClick = { /*TODO*/ }) {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(imageVector = Icons.Default.Add,
-                            contentDescription = "menu")
-                    }
-                }
-            },
-            //Content Section
-            content = @Composable{
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 70.dp, start = 20.dp),
-                ){
-
-                    //Row1
-                    Row {
-
-                        //Card1
-                        Card() {
-
-                            Box(modifier = Modifier
-                                .height(180.dp)
-                                .width(200.dp), contentAlignment = Alignment.Center){
-
-                                Image(
-                                    painter = painterResource(id = R.drawable.home1),
-                                    contentDescription = "home",
-                                    modifier = Modifier.fillMaxSize(),
-                                    contentScale = ContentScale.Crop
-                                )
-                                Icon(imageVector = Icons.Default.Favorite,
-                                    contentDescription = "favourite",
-                                    modifier = Modifier
-                                        .align(Alignment.TopEnd)
-                                        .padding(10.dp),
-                                    tint = Color.Red
-                                )
-
-                            }
-
-                        }
-                        //end of card
-
-                        Column(modifier = Modifier.padding(start = 20.dp)) {
-                            Text(text = "Visit Lavington", fontSize = 25.sp)
-                            Text(text = "The best property you can find!")
-                            Row {
-                                Icon(imageVector = Icons.Default.Star, contentDescription = "", tint = YellowIvy, modifier = Modifier,)
-                                Icon(imageVector = Icons.Default.Star, contentDescription = "", tint = YellowIvy, modifier = Modifier,)
-                                Icon(imageVector = Icons.Default.Star, contentDescription = "", tint = YellowIvy, modifier = Modifier,)
-                                Icon(imageVector = Icons.Default.Star, contentDescription = "", tint = YellowIvy, modifier = Modifier,)
-                                Icon(imageVector = Icons.Default.Star, contentDescription = "", tint = YellowIvy, modifier = Modifier,)
-                            }
-
-                            Text(text = "14,400 Reviews")
-                            Button(onClick = {  },
-                                colors = ButtonDefaults.buttonColors(PurpleIvy),
-                                shape = RoundedCornerShape(10.dp)
-                                ) {
-                                Text(text = "Call")
-                                
-                            }
-                        }
-
-                    }
-                    //End of row
-
-                    Spacer(modifier = Modifier.height(20.dp))
-
-                    val mContext = LocalContext.current
-
-                    Button(onClick = {
-                        val simToolKitLaunchIntent =
-                            mContext.packageManager.getLaunchIntentForPackage("com.android.stk")
-                        simToolKitLaunchIntent?.let { mContext.startActivity(it) }
-                    },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(50.dp)
-                            .padding(start = 20.dp, end = 20.dp),
-                        colors = ButtonDefaults.buttonColors(Color.Green),
-                        shape = RoundedCornerShape(10.dp)
-                    ) {
-                        Text(text = "M-Pesa")
-
-                    }
-
-                    Spacer(modifier = Modifier.height(20.dp))
-
-
-
-                    //CALL
-                    Button(onClick = {
-                        val callIntent=Intent(Intent.ACTION_DIAL)
-                        callIntent.data="tel:0720245837".toUri()
-                        mContext.startActivity(callIntent)
-                    },
-                        modifier = Modifier
-                            .size(width = 380.dp, height = 70.dp)
-                            .fillMaxWidth()
-                            .padding(start = 20.dp, end = 20.dp, top = 20.dp),
-                        shape = CutCornerShape(5.dp),
-                        colors = ButtonDefaults.buttonColors(Color.Black)
-                    ) {
-                        Text(text = "CALL")
-                    }
-
-
-
-
-
-
-
-                Spacer(modifier = Modifier.height(20.dp))
-
-                    Button(onClick = {
-                        val smsIntent=Intent(Intent.ACTION_SENDTO)
-                        smsIntent.data="smsto:0720245837".toUri()
-                        smsIntent.putExtra("sms_body","Hello Glory,how was your day?")
-                        mContext.startActivity(smsIntent)
-                    },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(50.dp)
-                            .padding(start = 20.dp, end = 20.dp),
-                        colors = ButtonDefaults.buttonColors(Color.Blue),
-                        shape = RoundedCornerShape(10.dp)
-                    ) {
-                        Text(text = "SMS")
-
-                    }
-
-                    Spacer(modifier = Modifier.height(20.dp))
-
-
-                    Button(onClick = {
-                        val shareIntent = Intent(Intent.ACTION_SEND)
-                        shareIntent.type = "text/plain"
-                        shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("akinyiglory2@gmail.com"))
-                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "subject")
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, "Hello, this is the email body")
-                        mContext.startActivity(shareIntent)
-                    },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(50.dp)
-                            .padding(start = 20.dp, end = 20.dp),
-                        colors = ButtonDefaults.buttonColors(Color.Blue),
-                        shape = RoundedCornerShape(10.dp)
-                    ) {
-                        Text(text = "Email")
-
-                    }
-
-                    Spacer(modifier = Modifier.height(20.dp))
-
-                    Button(onClick = {
-                        val shareIntent=Intent(Intent.ACTION_SEND)
-                        shareIntent.type="text/plain"
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this is a cool content")
-                        mContext.startActivity(Intent.createChooser(shareIntent, "Share"))
-                    },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(50.dp)
-                            .padding(start = 20.dp, end = 20.dp),
-                        colors = ButtonDefaults.buttonColors(Color.Cyan),
-                        shape = RoundedCornerShape(10.dp)
-                    ) {
-                        Text(text = "Share")
-
-                    }
-
-                    Spacer(modifier = Modifier.height(20.dp))
-
-                    Button(onClick = {
-                        val cameraIntent=Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                        if (cameraIntent.resolveActivity(mContext.packageManager)!=null){
-                            mContext.startActivity(cameraIntent)
-                        }else{
-                            println("Camera app is not available")
-                        }
-                    },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(50.dp)
-                            .padding(start = 20.dp, end = 20.dp),
-                        colors = ButtonDefaults.buttonColors(PurpleIvy),
-                        shape = RoundedCornerShape(10.dp)
-                    ) {
-                        Text(text = "Camera")
-
-                    }
-
-                }
-
-            }
-
-        )
-
-    }
 
 }
 
@@ -346,19 +96,28 @@ val bottomNavItems = listOf(
 
 
     BottomNavItem(
-        title = "Login",
-        route="login",
-        selectedIcon=Icons.Filled.Person,
-        unselectedIcon=Icons.Outlined.Person,
+        title = "Details",
+        route="details",
+        selectedIcon=Icons.Filled.Info,
+        unselectedIcon=Icons.Outlined.Info,
         hasNews = true,
         badges=5
     ),
 
     BottomNavItem(
-        title = "Signup",
-        route="signup",
-        selectedIcon=Icons.Filled.Face,
-        unselectedIcon=Icons.Outlined.Face,
+        title = "Property",
+        route="property",
+        selectedIcon=Icons.Filled.AddCircle,
+        unselectedIcon=Icons.Outlined.AddCircle,
+        hasNews = true,
+        badges=1
+    ),
+
+    BottomNavItem(
+        title = "About",
+        route="about",
+        selectedIcon=Icons.Filled.AddCircle,
+        unselectedIcon=Icons.Outlined.AddCircle,
         hasNews = true,
         badges=1
     ),
