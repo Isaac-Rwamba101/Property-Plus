@@ -204,7 +204,7 @@ fun DetailsScreen(navController: NavController){
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        Button(onClick = { navController.navigate(ROUT_INTENT) },
+        Button(onClick = { navController.navigate(ROUT_PROPERTY) },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
